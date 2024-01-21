@@ -10,6 +10,7 @@ lsp.ensure_installed({
     'svelte',
     'clangd',
     'cssls',
+    'rust_analyzer',
     'gopls'
 })
 
@@ -32,7 +33,7 @@ lsp.setup_nvim_cmp({
 
 -- don't initialize this language server
 -- we will use rust-tools to setup rust_analyzer
-lsp.skip_server_setup({ 'rust-analyzer' })
+--lsp.skip_server_setup({ 'rust-analyzer' })
 
 lsp.set_preferences({
 
@@ -44,7 +45,6 @@ lsp.setup_nvim_cmp({
 
 lsp.on_attach(function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
-
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
@@ -60,7 +60,6 @@ end)
 lsp.setup()
 
 
-
 -- initialize rust_analyzer with rust-tools
 -- see :help lsp-zero.build_options()
 local rust_lsp = lsp.build_options('rust_analyzer', {
@@ -73,11 +72,30 @@ local rust_lsp = lsp.build_options('rust_analyzer', {
         vim.keymap.set("n", "<leader>ha", function() require('rust-tools.hover_actions').hover_actions() end, opts)
         -- format on save
         vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
+
+
     end
 })
 
 require('rust-tools').setup({
-    server = rust_lsp,
+    -- disable LSP semantic highlighting
+    server = {
+        on_attach = function(client,bufnr)
+            client.server_capabilities.semanticTokensProvider = nil
+            -- repeat the default on_attach
+            local opts = { buffer = bufnr, remap = false }
+            vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+            vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+            vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+            vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+            vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+            vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+            vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
+            vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+            vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+            vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+        end,
+    },
     settings = {
         ["rust-analyzer"] = {
             assist = {

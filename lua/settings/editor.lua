@@ -1,9 +1,6 @@
 
 -- basic vim settings
 
--- Non fat cursor?
--- vim.opt.guicursor = ""
-
 -- Enable relative line numbers
 vim.opt.nu = true
 vim.opt.relativenumber = true
@@ -57,6 +54,3 @@ vim.opt.shortmess:append("c")
 
 -- Add a line on column 80 for reference
 vim.opt.colorcolumn = "80"
-
--- map space to <leader>
-vim.g.mapleader = " "

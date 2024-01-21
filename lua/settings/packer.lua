@@ -38,7 +38,7 @@ return require("packer").startup(
 
     -- Primeagen stuff
     use("ThePrimeagen/git-worktree.nvim")
-    use("ThePrimeagen/harpoon")
+    --use("ThePrimeagen/harpoon")
     use{"ThePrimeagen/refactoring.nvim",
         requires = {
             {"nvim-lua/plenary.nvim"},
@@ -72,7 +72,7 @@ return require("packer").startup(
     -- zen mode
     use("folke/zen-mode.nvim")
 
-    -- github copilot?
+    -- github copilot
     use("github/copilot.vim")
 
     -- LSP
@@ -96,12 +96,17 @@ return require("packer").startup(
         {'rafamadriz/friendly-snippets'},
       }
     }
-    -- Rust support
-    use("simrat39/rust-tools.nvim")
+
+   -- Rust support
+   use("simrat39/rust-tools.nvim")
    -- use("rust-lang/rust.vim")
 
    -- Latex Support
-    use("lervag/vimtex")
+   use("lervag/vimtex")
 
-  end
+   -- trying out typst
+    use {'kaarmu/typst.vim', ft = {'typst'}}
+    use {'mfussenegger/nvim-lint'}
+
+end
 )

@@ -7,6 +7,7 @@ local vnoremap = Remap.vnoremap
 local inoremap = Remap.inoremap
 local xnoremap = Remap.xnoremap
 local nmap = Remap.nmap
+
 -- reload config
 nnoremap("<leader><CR>",":so %<CR>")
 -- lua dependencies won't load properly, find a fix
@@ -14,8 +15,14 @@ nnoremap("<leader><CR>",":so %<CR>")
 nnoremap("<leader>w",":w<CR>")
 
 -- move through quickfix lists
-nnoremap("<C-j>",":cnext<CR>")
-nnoremap("<C-k>",":cprev<CR>")
+--nnoremap("<C-j>",":cnext<CR>")
+--nnoremap("<C-k>",":cprev<CR>")
+
+-- move through splits
+nnoremap("<C-J>","<C-W><C-J>")
+nnoremap("<C-K>","<C-W><C-K>")
+nnoremap("<C-L>","<C-W><C-L>")
+nnoremap("<C-H>","<C-W><C-H>")
 
 -- remove seach highlight
 nnoremap("<leader>h",":nohls<CR>")
@@ -53,8 +60,8 @@ inoremap("<Down>","<Nop>")
 --nnoremap("<leader>p",":bp<CR>")
 
 -- move buffers with arrow keys too
-nnoremap("<right>",":bn<CR>")
-nnoremap("<left>",":bp<CR>")
+nnoremap("<Right>",":bn<CR>")
+nnoremap("<Left>",":bp<CR>")
 
 -- <leader><leader> to toggle between buffers
 nnoremap("<leader><leader>",":b#<CR>")
@@ -65,5 +72,3 @@ nnoremap("<leader>,",":set invlist<CR>")
 -- <leader>c to copy full buffer to clipboard
 --nnoremap("<leader>c",":w !xsel -ib<CR><CR>")
 --nnoremap("<leader>v",":read !xsel --clipboard --output<CR>")
-
--- test this things

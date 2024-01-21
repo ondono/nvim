@@ -7,11 +7,11 @@ local silent = { silent = true }
 -- This just means I can crush, with opposite hand, the 4 terminal positions
 --
 -- These functions are stored in harpoon.  A plugn that I am developing
-nnoremap("<leader>a", function() require("harpoon.mark").add_file() end, silent)
-nnoremap("<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, silent)
-
-nnoremap("<C-i>", function() require("harpoon.ui").nav_file(1) end, silent)
-nnoremap("<C-o>", function() require("harpoon.ui").nav_file(2) end, silent)
-nnoremap("<C-[>", function() require("harpoon.ui").nav_file(3) end, silent)
-nnoremap("<C-]>", function() require("harpoon.ui").nav_file(4) end, silent)
-
+--nnoremap("<leader>a", function() require("harpoon.mark").add_file() end, silent)
+--nnoremap("<C-e>", function() require("harpoon.ui").toggle_quick_menu() end, silent)
+--
+--nnoremap("<C-i>", function() require("harpoon.ui").nav_file(1) end, silent)
+--nnoremap("<C-o>", function() require("harpoon.ui").nav_file(2) end, silent)
+--nnoremap("<C-[>", function() require("harpoon.ui").nav_file(3) end, silent)
+--nnoremap("<C-]>", function() require("harpoon.ui").nav_file(4) end, silent)
+--
