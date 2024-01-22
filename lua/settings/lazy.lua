@@ -15,7 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     {
         -- session management
-        'Shatur/neovim-session-manager', -- assign commands
+        --'Shatur/neovim-session-manager', -- assign commands
 
         -- notifcations
         'rcarriga/nvim-notify', -- testing
