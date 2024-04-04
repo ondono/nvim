@@ -21,18 +21,27 @@ require('lazy').setup({
         'rcarriga/nvim-notify', -- testing
 
         -- GUI
-        'MunifTanjim/nui.nvim', -- testing
+        'MunifTanjim/nui.nvim',         -- testing
         'kyazdani42/nvim-web-devicons', -- icons
-        'nvim-neo-tree/neo-tree.nvim', -- file tree
+        'nvim-neo-tree/neo-tree.nvim',  -- file tree
 
         -- git in nvim
         'tpope/vim-fugitive',
         'ciaranm/securemodelines',
 
         'nvim-lua/plenary.nvim',
-        'nvim-lua/popup.nvim',
-        'nvim-telescope/telescope.nvim',
+        --'nvim-lua/popup.nvim',
         'nvim-lualine/lualine.nvim',
+        {
+            'nvim-telescope/telescope.nvim',
+            dependencies = {
+                'nvim-lua/plenary.nvim',
+            }
+        },
+        {
+            'nvim-telescope/telescope-fzf-native.nvim',
+            build = 'make'
+        },
 
         -- undotree
         'mbbill/undotree',
@@ -45,11 +54,23 @@ require('lazy').setup({
         'rose-pine/neovim',
 
         -- Treesitter
-        { "nvim-treesitter/nvim-treesitter",
+        {
+            "nvim-treesitter/nvim-treesitter",
             build = ":TSUpdate"
         },
         'nvim-treesitter/playground',
         'romgrk/nvim-treesitter-context',
+
+        -- coding
+        {
+            'NumToStr/Comment.nvim',
+            config = function()
+                require('Comment').setup()
+            end
+        },
+        'Civitasv/cmake-tools.nvim',
+        { 'akinsho/toggleterm.nvim', version = "*",   config = true },
+
 
         -- Debugging
         'mfussenegger/nvim-dap',
@@ -63,37 +84,54 @@ require('lazy').setup({
         'github/copilot.vim',
 
         -- LSP
+        -- {
+        --     'VonHeikemen/lsp-zero.nvim',
+        --     branch = 'v1.x',
+        --     dependencies = {
+        --         -- LSP Support
+        --         { 'neovim/nvim-lspconfig' },
+        --         { 'williamboman/mason.nvim' },
+        --         { 'williamboman/mason-lspconfig.nvim' },
+        --         -- Autocompletion
+        --         { 'hrsh7th/nvim-cmp' },
+        --         { 'hrsh7th/cmp-nvim-lsp' },
+        --         { 'hrsh7th/cmp-buffer' },
+        --         { 'hrsh7th/cmp-path' },
+        --         { 'saadparwaiz1/cmp_luasnip' },
+        --         { 'hrsh7th/cmp-nvim-lua' },
+        --         -- Snippets
+        --         { 'L3MON4D3/LuaSnip' },
+        --         { 'rafamadriz/friendly-snippets' },
+        --     }
+        -- },
+        'williamboman/mason.nvim',
+        'williamboman/mason-lspconfig.nvim',
+        'neovim/nvim-lspconfig',
         {
-            'VonHeikemen/lsp-zero.nvim',
-            branch = 'v1.x',
+            'hrsh7th/nvim-cmp',
             dependencies = {
-                -- LSP Support
-                { 'neovim/nvim-lspconfig' },
-                { 'williamboman/mason.nvim' },
-                { 'williamboman/mason-lspconfig.nvim' },
-                -- Autocompletion
-                { 'hrsh7th/nvim-cmp' },
-                { 'hrsh7th/cmp-nvim-lsp' },
-                { 'hrsh7th/cmp-buffer' },
-                { 'hrsh7th/cmp-path' },
-                { 'saadparwaiz1/cmp_luasnip' },
-                { 'hrsh7th/cmp-nvim-lua' },
-                -- Snippets
-                { 'L3MON4D3/LuaSnip' },
-                { 'rafamadriz/friendly-snippets' },
-            }
+                'L3MON4D3/LuaSnip',
+                'saadparwaiz1/cmp_luasnip',
+                'rafamadriz/friendly-snippets',
+                'hrsh7th/cmp-nvim-lsp',
+            },
         },
+
+        -- formatter
+        --'mhartington/formatter.nvim',
 
         -- Rust support
         'simrat39/rust-tools.nvim',
+
+        -- Lua support
+        'folke/neodev.nvim',
 
         -- Latex Support
         'lervag/vimtex',
 
         -- typst support
-        {'kaarmu/typst.vim', ft = { 'typst' }},
+        { 'kaarmu/typst.vim',        ft = { 'typst' } },
         'mfussenegger/nvim-lint',
-
 
     }
 })
