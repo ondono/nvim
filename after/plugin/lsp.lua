@@ -42,7 +42,8 @@ local on_attach = function(_, bufnr)
     bufmap('K', vim.lsp.buf.hover)
 
     if vim.lsp.inlay_hint then
-        vim.lsp.inlay_hint.enable(0, true)
+        --vim.lsp.inlay_hint.enable(0, true)
+        vim.lsp.inlay_hint.enable(true)
     end
 
     vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
