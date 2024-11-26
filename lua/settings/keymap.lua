@@ -69,6 +69,9 @@ nnoremap("<leader><leader>",":b#<CR>")
 -- <leader>, to show/hide hidden characters
 nnoremap("<leader>,",":set invlist<CR>")
 
+-- <leader>f to flash
+nnoremap("<leader>t",":make flash<CR>")
+
 -- <leader>c to copy full buffer to clipboard
 --nnoremap("<leader>c",":w !xsel -ib<CR><CR>")
 --nnoremap("<leader>v",":read !xsel --clipboard --output<CR>")
