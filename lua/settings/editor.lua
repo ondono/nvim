@@ -35,9 +35,16 @@ vim.opt.incsearch = true
 
 -- colors 
 vim.opt.termguicolors = true
--- set colorscheme according to base16
+---- set colorscheme according to base16
 local colorscheme = "base16-" .. os.getenv("BASE16_THEME")
 local _,_ = pcall(vim.cmd, "colorscheme " .. colorscheme)
+
+vim.cmd [[
+    highlight Normal guibg=none
+    highlight NonText guibg=none
+    highlight Normal ctermbg=none
+    highlight NonText ctermbg=none
+]]
 
 -- allow vim to open filenames with @
 vim.opt.isfname:append("@-@")

@@ -18,7 +18,15 @@ require('lazy').setup({
         --'Shatur/neovim-session-manager', -- assign commands
 
         -- notifcations
-        'rcarriga/nvim-notify', -- testing
+        {
+            'rcarriga/nvim-notify', -- testing
+            config = function()
+                require("notify").setup({
+                    background_colour = "#ffffff",
+                    merge_duplicates = true,
+                })
+            end,
+        },
 
         -- GUI
         'MunifTanjim/nui.nvim',         -- testing
@@ -31,6 +39,7 @@ require('lazy').setup({
 
         'nvim-lua/plenary.nvim',
         --'nvim-lua/popup.nvim',
+        'folke/noice.nvim',
         'nvim-lualine/lualine.nvim',
         {
             'nvim-telescope/telescope.nvim',
@@ -93,27 +102,6 @@ require('lazy').setup({
         -- github copilot
         'github/copilot.vim',
 
-        -- LSP
-        -- {
-        --     'VonHeikemen/lsp-zero.nvim',
-        --     branch = 'v1.x',
-        --     dependencies = {
-        --         -- LSP Support
-        --         { 'neovim/nvim-lspconfig' },
-        --         { 'williamboman/mason.nvim' },
-        --         { 'williamboman/mason-lspconfig.nvim' },
-        --         -- Autocompletion
-        --         { 'hrsh7th/nvim-cmp' },
-        --         { 'hrsh7th/cmp-nvim-lsp' },
-        --         { 'hrsh7th/cmp-buffer' },
-        --         { 'hrsh7th/cmp-path' },
-        --         { 'saadparwaiz1/cmp_luasnip' },
-        --         { 'hrsh7th/cmp-nvim-lua' },
-        --         -- Snippets
-        --         { 'L3MON4D3/LuaSnip' },
-        --         { 'rafamadriz/friendly-snippets' },
-        --     }
-        -- },
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
         'neovim/nvim-lspconfig',
@@ -142,6 +130,26 @@ require('lazy').setup({
         -- typst support
         { 'kaarmu/typst.vim',        ft = { 'typst' } },
         'mfussenegger/nvim-lint',
+
+        -- Which key
+        {
+            "folke/which-key.nvim",
+            event = "VeryLazy",
+            opts = {
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                -- refer to the configuration section below
+            },
+            keys = {
+                {
+                    "<leader>?",
+                    function()
+                        require("which-key").show({ global = false })
+                    end,
+                    desc = "Buffer Local Keymaps (which-key)",
+                },
+            },
+        }
 
     }
 })

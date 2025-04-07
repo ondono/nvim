@@ -13,9 +13,11 @@ local border = {
 }
 
 local handlers = {
-    ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+    ["textDocument/hover"] = vim.lsp.buf.hover({ border = "rounded" }),
     --["textDocument/hover"] = vim.lsp.buf.with(vim.lsp.buf.handlers.hover, { border = border }),
-    ["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+    --["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+    ["textDocument/signatureHelp"] = vim.lsp.buf.signature_help,
+    { border = border },
     --["textDocument/signatureHelp"] = vim.lsp.buf.with(vim.lsp.buf.handlers.signature_help, { border = border }),
 }
 
@@ -33,17 +35,17 @@ local on_attach = function(_, bufnr)
     bufmap('<leader>D', vim.lsp.buf.type_definition)
 
     bufmap('<leader>vd', vim.diagnostic.open_float)
-    bufmap('[d', vim.diagnostic.goto_next)
-    --bufmap('[d', vim.diagnostic.jump({ count=1, float=true }))
-    bufmap(']d', vim.diagnostic.goto_prev)
-    --bufmap(']d', vim.diagnostic.jump({ count=-1, float=true }))
+    --bufmap('[d', vim.diagnostic.goto_next)
+    bufmap('[d', vim.diagnostic.jump({ count = 1, float = true }))
+    --bufmap(']d', vim.diagnostic.goto_prev)
+    bufmap(']d', vim.diagnostic.jump({ count = -1, float = true }))
 
     bufmap('gr', require('telescope.builtin').lsp_references)
     bufmap('<leader>s', require('telescope.builtin').lsp_document_symbols)
     bufmap('<leader>S', require('telescope.builtin').lsp_dynamic_workspace_symbols)
 
     bufmap('<leader>f', vim.lsp.buf.format)
-    bufmap('K', vim.lsp.buf.hover)
+    bufmap('K', vim.lsp.buf.hover({border = "rounded"}))
 
     if vim.lsp.inlay_hint then
         bufmap('<leader>H', vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()))
