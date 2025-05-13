@@ -62,7 +62,8 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 -- mason
 require("mason").setup()
-require("mason-lspconfig").setup_handlers({
+
+require("mason-lspconfig").setup({
 
     function(server_name)
         require("lspconfig")[server_name].setup {
@@ -136,8 +137,83 @@ require("mason-lspconfig").setup_handlers({
     end,
 })
 
+--require("mason-lspconfig").setup_handlers({
+--
+--    function(server_name)
+--        require("lspconfig")[server_name].setup {
+--            on_attach = on_attach,
+--            capabilities = capabilities
+--        }
+--    end,
+--
+--    ["lua_ls"] = function()
+--        require('neodev').setup()
+--        require('lspconfig').lua_ls.setup {
+--            on_attach = on_attach,
+--            capabilities = capabilities,
+--            handlers = handlers,
+--            settings = {
+--                Lua = {
+--                    workspace = { checkThirdParty = false },
+--                    telemetry = { enable = false },
+--                },
+--            }
+--        }
+--    end,
+--
+--    ["clangd"] = function()
+--        require('lspconfig').clangd.setup {
+--            on_attach = on_attach,
+--            capabilities = capabilities,
+--            handlers = handlers,
+--            cmd = { "clangd", "--offset-encoding=utf-16", "--clang-tidy" }
+--        }
+--    end,
+--
+--    ["gopls"] = function()
+--        require('lspconfig').gopls.setup {
+--            on_attach = on_attach,
+--            capabilities = capabilities,
+--            handlers = handlers
+--        }
+--    end,
+--
+--    ["cssls"] = function()
+--        require('lspconfig').cssls.setup {
+--            on_attach = on_attach,
+--            capabilities = capabilities,
+--            handlers = handlers
+--        }
+--    end,
+--
+--    ["rust_analyzer"] = function()
+--        require('lspconfig').rust_analyzer.setup {
+--            on_attach = on_attach,
+--            capabilities = capabilities,
+--            handlers = handlers,
+--        }
+--    end,
+--
+--    ["jsonls"] = function()
+--        require('lspconfig').jsonls.setup {
+--            on_attach = on_attach,
+--            capabilities = capabilities,
+--            handlers = handlers
+--        }
+--    end,
+--
+--    ["html"] = function()
+--        require('lspconfig').html.setup {
+--            on_attach = on_attach,
+--            capabilities = capabilities,
+--            handlers = handlers
+--        }
+--    end,
+--})
+
 
 --
+--  VERY OLD
 --
 ---- initialize rust_analyzer with rust-tools
 ---- see :help lsp-zero.build_options()
