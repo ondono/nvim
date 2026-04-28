@@ -67,7 +67,7 @@ require('lazy').setup({
             "nvim-treesitter/nvim-treesitter",
             build = ":TSUpdate"
         },
-        'nvim-treesitter/playground',
+        --'nvim-treesitter/playground',
         'romgrk/nvim-treesitter-context',
 
         -- coding
