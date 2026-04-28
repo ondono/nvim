@@ -65,6 +65,7 @@ require('lazy').setup({
         -- Treesitter
         {
             "nvim-treesitter/nvim-treesitter",
+            lazy = false,
             build = ":TSUpdate"
         },
         --'nvim-treesitter/playground',
