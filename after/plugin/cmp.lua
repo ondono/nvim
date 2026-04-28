@@ -7,8 +7,14 @@ luasnip.config.setup {}
 cmp.setup {
     snippet = {
         expand = function(args)
-            luasnip.lsp_expand(args.body)
+            --luasnip.lsp_expand(args.body)
+            -- switched to vim's built-in snippet engine
+            vim.snippet.expand(args.body)
         end,
+    },
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert {
         ['<C-n>'] = cmp.mapping.select_next_item(),
@@ -19,10 +25,7 @@ cmp.setup {
         ['<CR>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
-        },
-        -- disable tab completion, we'll use it for copilot
-        ['<Tab>'] = nil,
-        ['<S-Tab>'] = nil,
+        }
     },
     sources = {
         { name = 'nvim_lsp' },
@@ -32,3 +35,12 @@ cmp.setup {
         { name = 'luasnip' },
     },
 }
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
