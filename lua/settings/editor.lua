@@ -36,8 +36,11 @@ vim.opt.incsearch = true
 -- colors 
 vim.opt.termguicolors = true
 ---- set colorscheme according to base16
-local colorscheme = "base16-" .. os.getenv("BASE16_THEME")
-local _,_ = pcall(vim.cmd, "colorscheme " .. colorscheme)
+local base16_theme = os.getenv("BASE16_THEME")
+if base16_theme and base16_theme ~= "" then
+    local colorscheme = "base16-" .. base16_theme
+    pcall(vim.cmd, "colorscheme " .. colorscheme)
+end
 
 vim.cmd [[
     highlight Normal guibg=none
@@ -58,6 +61,7 @@ vim.opt.updatetime = 50
 
 -- Don't pass messages to |ins-completion-menu|.
 vim.opt.shortmess:append("c")
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- Add a line on column 80 for reference
 vim.opt.colorcolumn = "80"

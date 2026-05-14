@@ -1,6 +1,6 @@
 local treesitter = require("nvim-treesitter")
 
-treesitter.setup()
+treesitter.setup({})
 
 treesitter.install({
     "c", "rust", "go", "python", "css", "dockerfile",

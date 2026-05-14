@@ -14,24 +14,37 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
     {
-        -- session management
-        --'Shatur/neovim-session-manager', -- assign commands
-
-        -- notifcations
         {
-            'rcarriga/nvim-notify', -- testing
+            'rcarriga/nvim-notify',
             config = function()
                 require("notify").setup({
                     background_colour = "#ffffff",
                     merge_duplicates = true,
+                    on_open = function(win)
+                        local buf = vim.api.nvim_win_get_buf(win)
+                        local close = function()
+                            if vim.api.nvim_win_is_valid(win) then
+                                vim.api.nvim_win_close(win, true)
+                            end
+                        end
+
+                        vim.keymap.set("n", "q", close, { buffer = buf, silent = true })
+                        vim.keymap.set("n", "<Esc>", close, { buffer = buf, silent = true })
+
+                        vim.schedule(function()
+                            if vim.api.nvim_win_is_valid(win) then
+                                vim.api.nvim_set_current_win(win)
+                            end
+                        end)
+                    end,
                 })
             end,
         },
 
         -- GUI
-        'MunifTanjim/nui.nvim',         -- testing
-        'kyazdani42/nvim-web-devicons', -- icons
-        'nvim-neo-tree/neo-tree.nvim',  -- file tree
+        'MunifTanjim/nui.nvim',
+        'kyazdani42/nvim-web-devicons',
+        'nvim-neo-tree/neo-tree.nvim',
 
         -- git in nvim
         'tpope/vim-fugitive',
@@ -69,7 +82,6 @@ require('lazy').setup({
             lazy = false,
             build = ":TSUpdate"
         },
-        --'nvim-treesitter/playground',
         'romgrk/nvim-treesitter-context',
 
         -- coding
@@ -108,25 +120,28 @@ require('lazy').setup({
         'williamboman/mason-lspconfig.nvim',
         'neovim/nvim-lspconfig',
         {
+            'folke/lazydev.nvim',
+            ft = 'lua',
+            opts = {
+                library = {
+                    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+                },
+            },
+        },
+        {
             'hrsh7th/nvim-cmp',
             dependencies = {
                 'L3MON4D3/LuaSnip',
                 'saadparwaiz1/cmp_luasnip',
-                --'rafamadriz/friendly-snippets',
                 'hrsh7th/cmp-nvim-lsp',
+                'hrsh7th/cmp-buffer',
                 'hrsh7th/cmp-path',
                 'hrsh7th/cmp-cmdline',
+                'hrsh7th/cmp-nvim-lsp-signature-help',
             },
         },
 
-        -- formatter
-        --'mhartington/formatter.nvim',
-
-        -- Rust support
         'simrat39/rust-tools.nvim',
-
-        -- Lua support
-        'folke/neodev.nvim',
 
         -- Latex Support
         'lervag/vimtex',
@@ -139,11 +154,7 @@ require('lazy').setup({
         {
             "folke/which-key.nvim",
             event = "VeryLazy",
-            opts = {
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            },
+            opts = {},
             keys = {
                 {
                     "<leader>?",
