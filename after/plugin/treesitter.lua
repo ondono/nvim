@@ -12,6 +12,7 @@ treesitter.install({
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("xavi-treesitter-start", { clear = true }),
     pattern = {
         "c", "rust", "go", "python", "css", "dockerfile",
         "gitconfig", "gitignore", "devicetree",

@@ -1,31 +1,25 @@
 local Remap = require("settings.remap")
 local nnoremap = Remap.nnoremap
 
-nnoremap("<C-p>", ":Telescope")
 nnoremap("<leader>ps", function()
     require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})
-end)
+end, { desc = "Search text" })
 nnoremap("<C-p>", function()
     require('telescope.builtin').git_files()
-end)
+end, { desc = "Find git files" })
 nnoremap("<Leader>pf", function()
     require('telescope.builtin').find_files()
-end)
+end, { desc = "Find files" })
 
 nnoremap("<leader>pw", function()
     require('telescope.builtin').grep_string { search = vim.fn.expand("<cword>") }
-end)
+end, { desc = "Search word" })
 nnoremap("<leader>pb", function()
     require('telescope.builtin').buffers()
-end)
+end, { desc = "Find buffers" })
 nnoremap("<leader>vh", function()
     require('telescope.builtin').help_tags()
-end)
-
--- TODO: Fix this immediately
-nnoremap("<leader>vwh", function()
-    require('telescope.builtin').help_tags()
-end)
+end, { desc = "Find help" })
 
 --nnoremap("<leader>vrc", function()
 --    require('theprimeagen.telescope').search_dotfiles({ hidden = true })
@@ -48,6 +42,5 @@ end)
 --nnoremap("<leader>td", function()
 --    require('theprimeagen.telescope').dev()
 --end)
-
 
 

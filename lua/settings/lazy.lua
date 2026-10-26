@@ -31,11 +31,6 @@ require('lazy').setup({
                         vim.keymap.set("n", "q", close, { buffer = buf, silent = true })
                         vim.keymap.set("n", "<Esc>", close, { buffer = buf, silent = true })
 
-                        vim.schedule(function()
-                            if vim.api.nvim_win_is_valid(win) then
-                                vim.api.nvim_set_current_win(win)
-                            end
-                        end)
                     end,
                 })
             end,
@@ -43,12 +38,66 @@ require('lazy').setup({
 
         -- GUI
         'MunifTanjim/nui.nvim',
-        'kyazdani42/nvim-web-devicons',
-        'nvim-neo-tree/neo-tree.nvim',
+        'nvim-tree/nvim-web-devicons',
+        {
+            'nvim-neo-tree/neo-tree.nvim',
+            branch = 'main',
+            cmd = 'Neotree',
+            keys = {
+                { '<leader>e', '<cmd>Neotree toggle<cr>', desc = 'Toggle file tree' },
+            },
+            opts = {},
+        },
 
         -- git in nvim
         'tpope/vim-fugitive',
         'ciaranm/securemodelines',
+        {
+            'lewis6991/gitsigns.nvim',
+            event = { 'BufReadPre', 'BufNewFile' },
+            opts = {
+                current_line_blame = false,
+                on_attach = function(bufnr)
+                    local gs = require('gitsigns')
+                    local map = function(mode, lhs, rhs, desc)
+                        vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+                    end
+
+                    map('n', ']c', function()
+                        if vim.wo.diff then
+                            vim.cmd.normal({ ']c', bang = true })
+                        else
+                            gs.nav_hunk('next')
+                        end
+                    end, 'Next git hunk')
+                    map('n', '[c', function()
+                        if vim.wo.diff then
+                            vim.cmd.normal({ '[c', bang = true })
+                        else
+                            gs.nav_hunk('prev')
+                        end
+                    end, 'Previous git hunk')
+                    map({ 'n', 'v' }, '<leader>hs', gs.stage_hunk, 'Stage git hunk')
+                    map({ 'n', 'v' }, '<leader>hr', gs.reset_hunk, 'Reset git hunk')
+                    map('n', '<leader>hp', gs.preview_hunk, 'Preview git hunk')
+                    map('n', '<leader>hb', gs.blame_line, 'Blame current line')
+                    map('n', '<leader>hd', gs.diffthis, 'Diff current file')
+                    map('n', '<leader>hS', gs.stage_buffer, 'Stage current buffer')
+                    map('n', '<leader>hR', gs.reset_buffer, 'Reset current buffer')
+                    map('n', '<leader>hu', gs.undo_stage_hunk, 'Undo stage hunk')
+                end,
+            },
+        },
+        {
+            'akinsho/git-conflict.nvim',
+            version = '*',
+            event = { 'BufReadPre', 'BufNewFile' },
+            opts = {
+                default_mappings = true,
+                default_commands = true,
+                disable_diagnostics = false,
+            },
+        },
 
         'nvim-lua/plenary.nvim',
         --'nvim-lua/popup.nvim',
@@ -91,8 +140,96 @@ require('lazy').setup({
                 require('Comment').setup()
             end
         },
-        'Civitasv/cmake-tools.nvim',
-        { 'akinsho/toggleterm.nvim', version = "*",   config = true },
+        {
+            'Civitasv/cmake-tools.nvim',
+            ft = { 'c', 'cpp', 'cmake' },
+            keys = {
+                { '<leader>cg', '<cmd>CMakeGenerate<cr>', desc = 'CMake generate' },
+                { '<leader>cb', '<cmd>CMakeBuild<cr>', desc = 'CMake build' },
+                { '<leader>cr', '<cmd>CMakeRun<cr>', desc = 'CMake run target' },
+                { '<leader>ct', '<cmd>CMakeRunTest<cr>', desc = 'CMake run tests' },
+            },
+            opts = {},
+        },
+        {
+            'akinsho/toggleterm.nvim',
+            version = '*',
+            keys = {
+                { '<leader>tt', '<cmd>ToggleTerm<cr>', desc = 'Toggle terminal' },
+            },
+            opts = {
+                open_mapping = [[<c-\>]],
+                direction = 'float',
+            },
+        },
+        {
+            'stevearc/conform.nvim',
+            cmd = { 'ConformInfo' },
+            keys = {
+                {
+                    '<leader>f',
+                    function()
+                        require('conform').format({ lsp_format = 'fallback' })
+                    end,
+                    mode = { 'n', 'v' },
+                    desc = 'Format buffer or selection',
+                },
+            },
+            opts = {
+                formatters_by_ft = {
+                    c = { 'clang_format' },
+                    cpp = { 'clang_format' },
+                    lua = { 'stylua' },
+                    python = { 'ruff_format', 'black', stop_after_first = true },
+                    rust = { 'rustfmt', lsp_format = 'fallback' },
+                    sh = { 'shfmt' },
+                    typst = { 'typstyle', lsp_format = 'fallback' },
+                    zig = { 'zigfmt' },
+                },
+                default_format_opts = {
+                    lsp_format = 'fallback',
+                },
+            },
+        },
+        {
+            'folke/trouble.nvim',
+            cmd = 'Trouble',
+            keys = {
+                { '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Workspace diagnostics' },
+                { '<leader>xX', '<cmd>Trouble diagnostics toggle filter.buf=0<cr>', desc = 'Buffer diagnostics' },
+                { '<leader>xq', '<cmd>Trouble qflist toggle<cr>', desc = 'Quickfix list' },
+                { '<leader>xl', '<cmd>Trouble loclist toggle<cr>', desc = 'Location list' },
+                { '<leader>xs', '<cmd>Trouble symbols toggle<cr>', desc = 'Document symbols' },
+                { '<leader>xr', '<cmd>Trouble lsp_references toggle<cr>', desc = 'LSP references' },
+            },
+            opts = {},
+        },
+        {
+            'stevearc/overseer.nvim',
+            cmd = { 'OverseerRun', 'OverseerToggle', 'OverseerQuickAction' },
+            keys = {
+                { '<leader>or', '<cmd>OverseerRun<cr>', desc = 'Run task' },
+                { '<leader>oo', '<cmd>OverseerToggle<cr>', desc = 'Toggle tasks' },
+                { '<leader>oq', '<cmd>OverseerQuickAction<cr>', desc = 'Task action' },
+            },
+            opts = {},
+        },
+        {
+            'stevearc/oil.nvim',
+            lazy = false,
+            dependencies = { 'nvim-tree/nvim-web-devicons' },
+            keys = {
+                { '-', '<cmd>Oil<cr>', desc = 'Open parent directory' },
+                { '<leader>pv', '<cmd>Oil<cr>', desc = 'Open file browser' },
+            },
+            opts = {
+                default_file_explorer = true,
+                delete_to_trash = true,
+                view_options = {
+                    show_hidden = true,
+                },
+            },
+        },
         {
             "kylechui/nvim-surround",
             version = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -107,14 +244,15 @@ require('lazy').setup({
 
         -- Debugging
         'mfussenegger/nvim-dap',
-        'rcarriga/nvim-dap-ui',
+        'nvim-neotest/nvim-nio',
+        {
+            'rcarriga/nvim-dap-ui',
+            dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' },
+        },
         'theHamsta/nvim-dap-virtual-text',
 
         -- zen mode
         'folke/zen-mode.nvim',
-
-        -- github copilot
-        'github/copilot.vim',
 
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
@@ -140,21 +278,39 @@ require('lazy').setup({
                 'hrsh7th/cmp-nvim-lsp-signature-help',
             },
         },
-
-        'simrat39/rust-tools.nvim',
+        {
+            'folke/todo-comments.nvim',
+            event = { 'BufReadPost', 'BufNewFile' },
+            dependencies = { 'nvim-lua/plenary.nvim' },
+            keys = {
+                { '<leader>pt', '<cmd>TodoTelescope<cr>', desc = 'Find TODO comments' },
+                { '<leader>xt', '<cmd>TodoTrouble<cr>', desc = 'TODO comments list' },
+            },
+            opts = {},
+        },
 
         -- Latex Support
         'lervag/vimtex',
 
         -- typst support
         { 'kaarmu/typst.vim',        ft = { 'typst' } },
-        'mfussenegger/nvim-lint',
 
         -- Which key
         {
             "folke/which-key.nvim",
             event = "VeryLazy",
-            opts = {},
+            opts = {
+                spec = {
+                    { '<leader>c', group = 'CMake' },
+                    { '<leader>d', group = 'Debug' },
+                    { '<leader>h', group = 'Git hunks' },
+                    { '<leader>l', group = 'LSP' },
+                    { '<leader>o', group = 'Tasks' },
+                    { '<leader>p', group = 'Pickers' },
+                    { '<leader>t', group = 'Terminal/Typst' },
+                    { '<leader>x', group = 'Lists' },
+                },
+            },
             keys = {
                 {
                     "<leader>?",

@@ -6,9 +6,16 @@ local xnoremap = Remap.xnoremap
 local nmap = Remap.nmap
 
 -- Project View
-nnoremap("<leader>pv", ":Ex<CR>")
+nnoremap("<leader>pv", function()
+    local ok, oil = pcall(require, "oil")
+    if ok then
+        oil.open()
+    else
+        vim.cmd.Ex()
+    end
+end, { desc = "Open file browser" })
 -- Show Undo Tree
-nnoremap("<leader>u", ":UndotreeShow<CR>")
+nnoremap("<leader>u", ":UndotreeShow<CR>", { desc = "Show undo tree" })
 
 -- Move cursor (page up/down)
 nnoremap("<C-d>", "<C-d>zz")
@@ -45,16 +52,21 @@ vnoremap("<leader>d", "\"_d")
 -- This is going to get me cancelled
 inoremap("<C-c>", "<Esc>")
 
-nnoremap("Q", "<nop>")
+nnoremap("Q", "<nop>", { desc = "Disable Ex mode" })
 --nnoremap("<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 nnoremap("<leader>f", function()
-    vim.lsp.buf.format()
-end)
+    local ok, conform = pcall(require, "conform")
+    if ok then
+        conform.format({ lsp_format = "fallback" })
+    else
+        vim.lsp.buf.format()
+    end
+end, { desc = "Format buffer" })
 
 nnoremap("<C-k>", "<cmd>cnext<CR>zz")
 nnoremap("<C-j>", "<cmd>cprev<CR>zz")
 nnoremap("<leader>k", "<cmd>lnext<CR>zz")
 nnoremap("<leader>j", "<cmd>lprev<CR>zz")
 
-nnoremap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
-nnoremap("<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+nnoremap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Substitute word" })
+nnoremap("<leader>x", "<cmd>!chmod +x %<CR>", { silent = true, desc = "Make file executable" })
