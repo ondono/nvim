@@ -10,6 +10,16 @@ require("noice").setup({
         view_history = "messages",
         view_search = false, -- default view for search count messages
     },
+    routes = {
+        {
+            filter = {
+                event = "lsp",
+                kind = "progress",
+                find = "ltx_plus",
+            },
+            opts = { skip = true },
+        },
+    },
     popupmenu = {
         enabled = true,  -- enables the Noice popupmenu UI
         backend = "cmp", -- backend to use for completion and path expansion
