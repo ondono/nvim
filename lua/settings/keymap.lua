@@ -13,6 +13,7 @@ nnoremap("<leader><CR>", ":so %<CR>")
 -- lua dependencies won't load properly, find a fix
 
 nnoremap("<leader>w", ":w<CR>")
+nnoremap("<leader>mw", "<cmd>MarkdownWrap<CR>", { desc = "Set Markdown wrap width" })
 
 -- move through quickfix lists
 --nnoremap("<C-j>",":cnext<CR>")

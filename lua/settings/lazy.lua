@@ -254,6 +254,9 @@ require('lazy').setup({
         -- zen mode
         'folke/zen-mode.nvim',
 
+        -- github copilot
+        'github/copilot.vim',
+
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
         'neovim/nvim-lspconfig',
